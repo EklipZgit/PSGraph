@@ -1,13 +1,14 @@
 # Installing PSGraph
-Make sure you are running Powershell 5.0 (WMF 5.0). I don't know that it is a hard requirement at the moment but I plan on using 5.0 features.
-
-    # Install GraphViz from the Chocolatey repo
-    Register-PackageSource -Name Chocolatey -ProviderName Chocolatey -Location http://chocolatey.org/api/v2/
-    Find-Package graphviz | Install-Package -ForceBootstrap
+Make sure you are running Powershell 5.0 (WMF 5.0) or Powershell 7+ (pwsh.exe).
 
     # Install PSGraph from the Powershell Gallery
-    Find-Module PSGraph | Install-Module 
+    Find-Module PSGraph | Install-Module
 
+    # Install GraphViz
+    Install-GraphViz -Scope CurrentUser|AllUsers
+    # Note, an error may be written if chocolatey is not installed.
+    # However, an older version of GraphViz will be used from nuget.org which should still work.
+    # If you see this error, considering installing chocolatey and then re-running to have newer Graphviz
 
 
 # Generating your first graph
@@ -18,10 +19,10 @@ PSGraph has a unique syntax for defining a graph. This is because it was built s
     Import-Module PSGraph
 
     graph "myGraph" {
-        edge start,middle,end        
+        edge start,middle,end
     } | Export-PSGraph -ShowGraph
 
-This will create a new graph with three nodes linking each other. 
+This will create a new graph with three nodes linking each other.
 
 [![Source](images/firstGraph.png)](images/firstGraph.png)
 

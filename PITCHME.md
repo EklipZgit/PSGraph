@@ -5,10 +5,6 @@ PSGraph is a PowerShell module that allows you to script the generation of graph
 ![basic graph](https://kevinmarquette.github.io/img/basic.png)
 
 ---
-### Install GraphViz from the Chocolatey repo
-
-    Register-PackageSource -Name Chocolatey -ProviderName Chocolatey -Location http://chocolatey.org/api/v2/
-    Find-Package graphviz | Install-Package -ForceBootstrap
 
 ### Install PSGraph from the Powershell Gallery
 
@@ -17,6 +13,12 @@ PSGraph is a PowerShell module that allows you to script the generation of graph
 ### Import Module
 
     Import-Module PSGraph
+
+### Install GraphViz
+    Install-GraphViz -Scope CurrentUser|AllUsers
+    # Note, an error may be written if chocolatey is not installed.
+    # However, an older version of GraphViz will be used from nuget.org which should still work.
+    # If you see this error, considering installing chocolatey and then re-running to have newer Graphviz
 
 ---
 

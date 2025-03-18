@@ -12,7 +12,7 @@
     RootModule        = 'PSGraph.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '2.1.38'
+    ModuleVersion     = '2.1.39'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -108,6 +108,10 @@
 
             # ReleaseNotes of this module
             ReleaseNotes = @'
+2.1.39 20250318
+* add support for non-admin install on Windows.
+* gracefully handle systems without Chocolatey by falling back to nuget.org's 2016 Graphviz package.
+
 2.1.16 20180217
 * add Record command
 * add Row command

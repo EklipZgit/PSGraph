@@ -75,6 +75,7 @@ function Export-PSGraph
         [string[]]
         $GraphVizPath = (
             'C:\Program Files\NuGet\Packages\Graphviz*\dot.exe',
+            "$env:USERPROFILE\AppData\Local\PackageManagement\NuGet\Packages\Graphviz*\dot.exe", # The Install-GraphViz -Scope CurrentUser location.
             'C:\program files*\GraphViz*\bin\dot.exe',
             '/usr/local/bin/dot',
             '/usr/bin/dot'
@@ -96,7 +97,7 @@ function Export-PSGraph
             if ( $null -eq $graphViz )
             {
                 $GraphvizPathString = $GraphVizPath -Join " or "
-                throw "Could not find GraphViz installed on this system. Please run 'Install-GraphViz' to install the needed binaries and libraries. This module just a wrapper around GraphViz and is looking for it in the following paths: $($GraphvizPathString). Optionally pass a path to your dot.exe file with the GraphVizPath parameter"
+                throw "Could not find GraphViz installed on this system. Please run 'Install-GraphViz' to install the needed binaries and libraries. Use 'Install-GraphViz -Scope CurrentUser' to install for the current user only on Windows. This module just a wrapper around GraphViz and is looking for it in the following paths: $($GraphvizPathString). Optionally pass a path to your dot.exe file with the GraphVizPath parameter"
             }
 
             $useStandardInput = $false

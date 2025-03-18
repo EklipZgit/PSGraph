@@ -1,5 +1,5 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/cgo827o4f74lmf9w/branch/master?svg=true)](https://ci.appveyor.com/project/kevinmarquette/PSGraph/branch/master) [![Documentation Status](https://readthedocs.org/projects/psgraph/badge/?version=latest)](http://psgraph.readthedocs.io/en/latest/?badge=latest)
-    
+
 
 # PSGraph
 
@@ -19,7 +19,7 @@ PSGraph is a helper module implemented as a DSL (Domain Specific Language) for g
 Beta release. The core module work and documentation is fleshed out. The simple features are implemented but there are other features of the DOT language that I have not used much myself. The command names and arguments of the existing commands should be stable now. As always, more testing still needs to be done.
 
 # GraphViz and the Dot format basics
-The nice thing about GraphViz is that you can define nodes and edges with a simple text file in the Dot format. The GraphViz engine handles the layout, edge routing, rendering and creates an image for you. 
+The nice thing about GraphViz is that you can define nodes and edges with a simple text file in the Dot format. The GraphViz engine handles the layout, edge routing, rendering and creates an image for you.
 
 Here is a sample Dot file.
 
@@ -53,7 +53,7 @@ I tried to keep a syntax that was similar to GraphViz but offer the flexibility 
 ## Graph or digraph
 This is the container that holds graph elements. Every valid GraphViz graph has one. `digraph` is just an alias of `graph` so I am going to use the shorter `graph` for the rest of the readme.
 
-    graph g {        
+    graph g {
     }
 
 ## Edge
@@ -70,12 +70,12 @@ If you supply two arrays, it will cross multiply them. So each item on the left 
     graph g {
         edge (1,3) (2,4)
     }
-    
+
 Because this is Powershell, we can mix in normal commands. Take this example.
 
     $folders = Get-ChildItem -Directory -Recurse
     graph g {
-        $folders | %{edge $_.Name $_.Parent} 
+        $folders | %{edge $_.Name $_.Parent}
     }
 
 I also support edge attributes that are defined in the DOT specification by using a hashtable.
@@ -99,8 +99,8 @@ This is the exact Dot output generated those node commands.
 
         "start" [shape="house"]
         "end" [shape="invhouse"]
-        "start"->"middle" 
-        "middle"->"end" 
+        "start"->"middle"
+        "middle"->"end"
     }
 
 ## Rank
@@ -142,30 +142,32 @@ We can pull that all together and generate quite the data driven driven diagram.
         subgraph 1 -Attributes @{label='Internal'} {
             # Internal API servers
             rank $apiServers
-            node $apiServers   
+            node $apiServers
             edge $webServers -to $apiServers
-        
+
             # Database Servers
             rank $databaseServers
             node $databaseServers @{shape='octagon'}
             edge $apiServers -to $databaseServers
-        }    
+        }
     }
 
 
 
 # Installing PSGraph
-Make sure you are running Powershell 5.0 (WMF 5.0). I don't know that it is a hard requirement at the moment but I plan on using 5.0 features.
-
-    # Install GraphViz from the Chocolatey repo
-    Register-PackageSource -Name Chocolatey -ProviderName Chocolatey -Location http://chocolatey.org/api/v2/
-    Find-Package graphviz | Install-Package -ForceBootstrap
+Make sure you are running Powershell 5.0 (WMF 5.0) or Powershell 7+ (pwsh.exe).
 
     # Install PSGraph from the Powershell Gallery
     Find-Module PSGraph | Install-Module
 
     # Import Module
     Import-Module PSGraph
+
+    # Install GraphViz
+    Install-GraphViz -Scope CurrentUser|AllUsers
+    # Note, an error may be written if chocolatey is not installed.
+    # However, an older version of GraphViz will be used from nuget.org which should still work.
+    # If you see this error, considering installing chocolatey and then re-running to have newer Graphviz
 
 For OSX, you can use brew to install graphviz.
 
@@ -181,7 +183,7 @@ I am still working out the workflow for this, but for now just do this.
 
     # Save to file
     Set-Content -Path $env:temp\hello.vz -Value $dot
-    
+
     Export-PSGraph -Source $env:temp\hello.vz -Destination $env:temp\hello.png -ShowGraph
 
 The export can be done more in line if needed.
